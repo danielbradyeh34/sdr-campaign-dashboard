@@ -7,25 +7,25 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   :root {
-    --bg-primary: #0f1117;
-    --bg-secondary: #1a1d2e;
-    --bg-card: #1e2235;
-    --bg-card-hover: #252a40;
-    --border: #2d3250;
-    --text-primary: #e8eaf0;
-    --text-secondary: #9ca3b8;
-    --text-muted: #6b7280;
-    --accent-purple: #7c5cfc;
-    --accent-blue: #4da6ff;
-    --accent-green: #34d399;
-    --accent-red: #f87171;
-    --accent-amber: #fbbf24;
-    --accent-orange: #fb923c;
+    --bg-primary: #f5f6fa;
+    --bg-secondary: #edf0f7;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f8f9fc;
+    --border: #e0e4ef;
+    --text-primary: #1a1d2e;
+    --text-secondary: #525872;
+    --text-muted: #8890a8;
+    --accent-purple: #6d28d9;
+    --accent-blue: #2563eb;
+    --accent-green: #16a34a;
+    --accent-red: #dc2626;
+    --accent-amber: #d97706;
+    --accent-orange: #ea580c;
     --gradient-start: #6d28d9;
     --gradient-end: #2563eb;
-    --success: #22c55e;
-    --danger: #ef4444;
-    --warning: #f59e0b;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --warning: #d97706;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -44,7 +44,7 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
   }
 
   .header-inner {
@@ -72,7 +72,7 @@
 
   .campaign-toggle {
     display: flex;
-    background: rgba(0,0,0,0.3);
+    background: rgba(255,255,255,0.15);
     border-radius: 10px;
     padding: 4px;
     gap: 4px;
@@ -91,14 +91,14 @@
   }
 
   .toggle-btn.active {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.3);
     color: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
 
   .toggle-btn:hover:not(.active) {
     color: rgba(255,255,255,0.85);
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.1);
   }
 
   .container {
@@ -121,11 +121,12 @@
     border-radius: 12px;
     padding: 20px 24px;
     transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
 
   .kpi-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
   }
 
   .kpi-label {
@@ -169,6 +170,7 @@
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
 
   .chart-card.full-width {
@@ -187,6 +189,17 @@
     color: var(--text-muted);
     margin-top: -12px;
     margin-bottom: 16px;
+  }
+
+  .chart-summary {
+    font-size: 13px;
+    color: var(--text-secondary);
+    background: var(--bg-primary);
+    border-left: 3px solid var(--accent-purple);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    margin-top: 14px;
+    line-height: 1.55;
   }
 
   .chart-container {
@@ -259,6 +272,7 @@
     border-radius: 12px;
     padding: 28px;
     margin-bottom: 28px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
 
   .coaching-title {
@@ -277,7 +291,7 @@
   }
 
   .coaching-section {
-    background: var(--bg-secondary);
+    background: var(--bg-primary);
     border-radius: 10px;
     padding: 20px;
     border-left: 4px solid;
@@ -303,7 +317,7 @@
     font-size: 13px;
     color: var(--text-secondary);
     padding: 6px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid var(--border);
     line-height: 1.5;
   }
 
@@ -320,9 +334,9 @@
     margin-left: 6px;
   }
 
-  .badge-green { background: rgba(34,197,94,0.15); color: var(--accent-green); }
-  .badge-red { background: rgba(239,68,68,0.15); color: var(--accent-red); }
-  .badge-amber { background: rgba(245,158,11,0.15); color: var(--accent-amber); }
+  .badge-green { background: rgba(22,163,74,0.1); color: var(--accent-green); }
+  .badge-red { background: rgba(220,38,38,0.1); color: var(--accent-red); }
+  .badge-amber { background: rgba(217,119,6,0.1); color: var(--accent-amber); }
 
   /* Data Table */
   .data-table-wrapper {
@@ -332,6 +346,7 @@
     padding: 24px;
     margin-bottom: 28px;
     overflow-x: auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
 
   .data-table {
@@ -454,12 +469,6 @@
     .kpi-row { grid-template-columns: 1fr; }
     .header h1 { font-size: 18px; }
   }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 8px; height: 8px; }
-  ::-webkit-scrollbar-track { background: var(--bg-primary); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-  ::-webkit-scrollbar-thumb:hover { background: #3d4260; }
 </style>
 </head>
 <body>
@@ -507,7 +516,7 @@
     </div>
   </div>
 
-  <!-- Charts Row 1 -->
+  <!-- Charts Row -->
   <div class="chart-grid">
     <!-- Rep Conversion Bar Chart -->
     <div class="chart-card">
@@ -516,6 +525,7 @@
       <div class="chart-container bar-tall">
         <canvas id="repBarChart"></canvas>
       </div>
+      <div class="chart-summary" id="summary-rep">Loading...</div>
     </div>
 
     <!-- Market Donut -->
@@ -526,6 +536,7 @@
         <canvas id="marketDonut"></canvas>
       </div>
       <div id="market-legend" style="margin-top:16px;"></div>
+      <div class="chart-summary" id="summary-market">Loading...</div>
     </div>
 
     <!-- Lead Status Funnel -->
@@ -533,6 +544,7 @@
       <div class="chart-title">Lead Status Funnel</div>
       <div class="chart-subtitle">Current status distribution of all leads</div>
       <div id="funnel-container" class="funnel-container"></div>
+      <div class="chart-summary" id="summary-funnel">Loading...</div>
     </div>
 
     <!-- Campaign Variant Performance -->
@@ -542,6 +554,7 @@
       <div class="chart-container campaign-bar">
         <canvas id="campaignChart"></canvas>
       </div>
+      <div class="chart-summary" id="summary-campaign">Loading...</div>
     </div>
 
     <!-- Heatmap -->
@@ -549,6 +562,7 @@
       <div class="chart-title">Rep x Market Heatmap</div>
       <div class="chart-subtitle">Win % by rep and market segment - darker green = higher conversion</div>
       <div class="heatmap-wrapper" id="heatmap-wrapper"></div>
+      <div class="chart-summary" id="summary-heatmap">Loading...</div>
     </div>
   </div>
 
@@ -569,11 +583,12 @@
       <thead id="table-head"></thead>
       <tbody id="table-body"></tbody>
     </table>
+    <div class="chart-summary" id="summary-table">Loading...</div>
   </div>
 </div>
 
 <footer class="footer">
-  Data as of Feb 2026 | Built by RevOps Automation
+  Data as of Feb 2026 | Built by RevOps Automation | Proof of Concept
 </footer>
 
 <script>
@@ -692,11 +707,11 @@ const DATA = {
       { market: 'Mid-Market', demos: 1, lost: 47, total: 48, win: 2.08 },
     ],
     campaigns: [
-      { code: 'DE-2509-DP-GC-PSO-Facebook-DL-CAN-NAT-FR-Onboarding_Checklist', demos: 4, lost: 110, total: 114 },
-      { code: 'DE-2509-DP-GC-PSO-Facebook-DL-CAN-ROC-EN-Onboarding_Checklist', demos: 2, lost: 45, total: 47 },
-      { code: 'DE-2509-DP-GC-PSO-Linkedin-DL-CAN-ROC-EN-Onboarding_Checklist', demos: 1, lost: 38, total: 39 },
-      { code: 'DE-2601-DP-GC-PSO-Facebook-DL-CAN-NAT-EN-Onboarding_Checklist', demos: 0, lost: 20, total: 20 },
-      { code: 'DE-2601-DP-GC-PSO-Linkedin-DL-CAN-NAT-EN-Onboarding_Checklist', demos: 0, lost: 5, total: 5 },
+      { code: 'DE-2509-DP-GC-PSO-Facebook-DL-CAN-NAT-FR-Onboarding_Checklist', demos: 3, lost: 95, total: 98 },
+      { code: 'DE-2509-DP-GC-PSO-Facebook-DL-CAN-ROC-EN-Onboarding_Checklist', demos: 2, lost: 38, total: 40 },
+      { code: 'DE-2509-DP-GC-PSO-Linkedin-DL-CAN-ROC-EN-Onboarding_Checklist', demos: 2, lost: 36, total: 38 },
+      { code: 'DE-2601-DP-GC-PSO-Facebook-DL-CAN-NAT-EN-Onboarding_Checklist', demos: 0, lost: 28, total: 28 },
+      { code: 'DE-2601-DP-GC-PSO-Linkedin-DL-CAN-NAT-EN-Onboarding_Checklist', demos: 0, lost: 8, total: 8 },
     ],
     leadStatus: [
       { status: 'Lost', count: 205 },
@@ -722,37 +737,85 @@ let sortState = { col: 'win', dir: 'desc' };
 // ============================
 
 function parseCampaignCode(code) {
-  const parts = code.split('-');
-  // Extract platform
   let platform = 'Unknown';
   if (code.includes('Facebook')) platform = 'Facebook';
   else if (code.includes('Linkedin')) platform = 'LinkedIn';
-
-  // Extract language
   let lang = 'EN';
   if (code.includes('-FR-')) lang = 'FR';
-
-  // Extract region
   let region = 'National';
   if (code.includes('-ROC-')) region = 'Rest of Canada';
   else if (code.includes('-QC-')) region = 'Quebec';
   else if (code.includes('-NAT-')) region = 'National';
-
-  // Extract year
   let year = '2025';
   if (code.includes('2026') || code.includes('2601')) year = '2026';
-
   return `${platform} | ${lang} | ${region} | ${year}`;
 }
 
 function getHeatColor(val, max) {
-  if (val === 0) return 'rgba(107, 114, 128, 0.2)';
+  if (val === 0) return 'rgba(156, 163, 175, 0.12)';
   const intensity = Math.min(val / Math.max(max, 1), 1);
-  return `rgba(34, 197, 94, ${0.15 + intensity * 0.55})`;
+  return `rgba(22, 163, 74, ${0.08 + intensity * 0.3})`;
 }
 
 function getHeatTextColor(val) {
-  return val > 0 ? '#34d399' : '#6b7280';
+  return val > 0 ? '#15803d' : '#9ca3af';
+}
+
+// ============================
+// CHART SUMMARIES
+// ============================
+
+function updateSummaries() {
+  const d = DATA[activeCampaign];
+  const avgWin = d.repTotals.reduce((s, r) => s + r.win, 0) / d.repTotals.length;
+  const topRep = [...d.repTotals].sort((a, b) => b.win - a.win)[0];
+  const zeroReps = d.repTotals.filter(r => r.win === 0);
+  const totalDemos = d.repTotals.reduce((s, r) => s + r.demos, 0);
+  const totalResolved = d.repTotals.reduce((s, r) => s + r.total, 0);
+  const campName = activeCampaign === 'PY' ? 'Payroll Guide' : 'Onboarding Checklist';
+
+  // Rep bar chart summary
+  document.getElementById('summary-rep').innerHTML =
+    `<strong>Source:</strong> Salesforce Lead data filtered to "${campName}" campaigns, grouped by Lead Owner. Win % = Demo Booked / (Demo Booked + Lost). ` +
+    `The top performer is <strong>${topRep.rep}</strong> at ${topRep.win.toFixed(1)}%, while ` +
+    `<strong>${zeroReps.length} rep${zeroReps.length !== 1 ? 's' : ''}</strong> have 0% conversion. Team average is ${avgWin.toFixed(1)}%.`;
+
+  // Market donut summary
+  const bestMarket = [...d.marketTotals].sort((a, b) => b.win - a.win)[0];
+  const zeroMarkets = d.marketTotals.filter(m => m.win === 0);
+  document.getElementById('summary-market').innerHTML =
+    `<strong>Source:</strong> Leads grouped by Market segment (employee count). ` +
+    `<strong>${bestMarket.market}</strong> converts best at ${bestMarket.win.toFixed(1)}% (${bestMarket.demos} demos from ${bestMarket.total} leads).` +
+    (zeroMarkets.length > 0 ? ` <strong>${zeroMarkets.map(m=>m.market).join(', ')}</strong> has 0% conversion despite ${zeroMarkets.reduce((s,m)=>s+m.total,0)} resolved leads.` : '');
+
+  // Funnel summary
+  const huntingPct = ((d.leadStatus.find(s=>s.status==='Hunting')?.count || 0) / d.totalLeads * 100).toFixed(0);
+  const lostPct = ((d.leadStatus.find(s=>s.status==='Lost')?.count || 0) / d.totalLeads * 100).toFixed(0);
+  document.getElementById('summary-funnel').innerHTML =
+    `<strong>Source:</strong> Current Lead Status field from Salesforce for all ${d.totalLeads} leads on this campaign. ` +
+    `${lostPct}% are Lost, ${huntingPct}% are still in Hunting. Only ${totalDemos} have reached Demo Booked.`;
+
+  // Campaign variant summary
+  const convertingCamps = d.campaigns.filter(c => c.demos > 0);
+  const bestCamp = [...d.campaigns].sort((a,b) => (b.total>0?b.demos/b.total:0) - (a.total>0?a.demos/a.total:0))[0];
+  const bestCampRate = bestCamp.total > 0 ? ((bestCamp.demos / bestCamp.total) * 100).toFixed(1) : '0';
+  document.getElementById('summary-campaign').innerHTML =
+    `<strong>Source:</strong> Campaign Name field from Salesforce, parsed by channel/language/region. ` +
+    `${convertingCamps.length} of ${d.campaigns.length} variants are generating demos. ` +
+    `<strong>${parseCampaignCode(bestCamp.code)}</strong> leads at ${bestCampRate}% conversion.`;
+
+  // Heatmap summary
+  const zeroCount = d.repMarket.filter(r => r.win === 0).length;
+  const totalCells = d.repMarket.length;
+  document.getElementById('summary-heatmap').innerHTML =
+    `<strong>Source:</strong> Cross-tabulation of Lead Owner x Market segment. ` +
+    `${zeroCount} of ${totalCells} rep-market combinations (${((zeroCount/totalCells)*100).toFixed(0)}%) show 0% conversion. ` +
+    `This helps isolate whether underperformance is rep-specific, market-specific, or both.`;
+
+  // Data table summary
+  document.getElementById('summary-table').innerHTML =
+    `<strong>Source:</strong> All ${totalResolved} resolved leads (Demo Booked + Lost) from Salesforce, broken down by Lead Owner and Market. ` +
+    `Leads still in Hunting, New, or Working are excluded from conversion calculations to show true completion rates.`;
 }
 
 // ============================
@@ -791,8 +854,8 @@ function renderRepBarChart() {
   const labels = sorted.map(r => r.rep);
   const values = sorted.map(r => r.win);
   const colors = sorted.map(r => {
-    if (r.win === 0) return 'rgba(107,114,128,0.5)';
-    return r.win >= avgWin ? 'rgba(34,197,94,0.8)' : 'rgba(248,113,113,0.8)';
+    if (r.win === 0) return 'rgba(156,163,175,0.4)';
+    return r.win >= avgWin ? 'rgba(22,163,74,0.75)' : 'rgba(220,38,38,0.65)';
   });
 
   if (charts.repBar) charts.repBar.destroy();
@@ -805,7 +868,7 @@ function renderRepBarChart() {
         label: 'Win %',
         data: values,
         backgroundColor: colors,
-        borderColor: colors.map(c => c.replace('0.8', '1').replace('0.5', '0.7')),
+        borderColor: colors.map(c => c.replace(/[\d.]+\)$/, '1)')),
         borderWidth: 1,
         borderRadius: 4,
         barThickness: 28,
@@ -828,13 +891,13 @@ function renderRepBarChart() {
       },
       scales: {
         x: {
-          grid: { color: 'rgba(255,255,255,0.05)' },
-          ticks: { color: '#9ca3b8', callback: v => v + '%' },
-          title: { display: true, text: 'Win Rate %', color: '#6b7280' },
+          grid: { color: 'rgba(0,0,0,0.06)' },
+          ticks: { color: '#525872', callback: v => v + '%' },
+          title: { display: true, text: 'Win Rate %', color: '#8890a8' },
         },
         y: {
           grid: { display: false },
-          ticks: { color: '#e8eaf0', font: { size: 12 } },
+          ticks: { color: '#1a1d2e', font: { size: 12 } },
         }
       }
     }
@@ -845,8 +908,7 @@ function renderMarketDonut() {
   const d = DATA[activeCampaign];
   const labels = d.marketTotals.map(m => m.market);
   const totals = d.marketTotals.map(m => m.total);
-  const winRates = d.marketTotals.map(m => m.win);
-  const bgColors = ['rgba(124,92,252,0.8)', 'rgba(77,166,255,0.8)', 'rgba(251,191,36,0.8)'];
+  const bgColors = ['rgba(109,40,217,0.75)', 'rgba(37,99,235,0.75)', 'rgba(217,119,6,0.75)'];
 
   if (charts.donut) charts.donut.destroy();
 
@@ -857,8 +919,8 @@ function renderMarketDonut() {
       datasets: [{
         data: totals,
         backgroundColor: bgColors,
-        borderColor: bgColors.map(c => c.replace('0.8', '1')),
-        borderWidth: 2,
+        borderColor: ['#fff','#fff','#fff'],
+        borderWidth: 3,
         hoverOffset: 8,
       }]
     },
@@ -870,7 +932,7 @@ function renderMarketDonut() {
         legend: {
           display: true,
           position: 'bottom',
-          labels: { color: '#e8eaf0', padding: 16, usePointStyle: true, pointStyleWidth: 12 }
+          labels: { color: '#1a1d2e', padding: 16, usePointStyle: true, pointStyleWidth: 12 }
         },
         tooltip: {
           callbacks: {
@@ -884,12 +946,11 @@ function renderMarketDonut() {
     }
   });
 
-  // Custom legend below
   let legendHtml = '<div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">';
   d.marketTotals.forEach((m, i) => {
     legendHtml += `<div style="display:flex;align-items:center;gap:6px;">
       <span style="width:12px;height:12px;border-radius:3px;background:${bgColors[i]};display:inline-block;"></span>
-      <span style="font-size:12px;color:#9ca3b8;"><strong style="color:#e8eaf0;">${m.market}</strong> ${m.total} leads / ${m.win.toFixed(2)}% conv</span>
+      <span style="font-size:12px;color:#525872;"><strong style="color:#1a1d2e;">${m.market}</strong> ${m.total} leads / ${m.win.toFixed(2)}% conv</span>
     </div>`;
   });
   legendHtml += '</div>';
@@ -900,13 +961,13 @@ function renderFunnel() {
   const d = DATA[activeCampaign];
   const funnelOrder = ['New', 'New Contact', 'Hunting', 'Working', 'Qualified', 'Demo Booked', 'Lost'];
   const funnelColors = {
-    'New': '#7c5cfc',
-    'New Contact': '#6d5ce0',
-    'Hunting': '#4da6ff',
-    'Working': '#fbbf24',
-    'Qualified': '#34d399',
-    'Demo Booked': '#22c55e',
-    'Lost': '#ef4444',
+    'New': '#6d28d9',
+    'New Contact': '#7c3aed',
+    'Hunting': '#2563eb',
+    'Working': '#d97706',
+    'Qualified': '#16a34a',
+    'Demo Booked': '#15803d',
+    'Lost': '#dc2626',
   };
 
   const statusMap = {};
@@ -925,7 +986,7 @@ function renderFunnel() {
       <div class="funnel-step">
         <div class="funnel-label">${status}</div>
         <div class="funnel-bar-wrapper">
-          <div class="funnel-bar" style="width:${Math.max(pct, 8)}%;background:${funnelColors[status] || '#6b7280'};">
+          <div class="funnel-bar" style="width:${Math.max(pct, 8)}%;background:${funnelColors[status] || '#8890a8'};">
             ${count}
           </div>
           <span class="funnel-count">${totalPct}% of total</span>
@@ -943,7 +1004,7 @@ function renderCampaignChart() {
   const convRates = d.campaigns.map(c => c.total > 0 ? ((c.demos / c.total) * 100) : 0);
   const totals = d.campaigns.map(c => c.total);
 
-  const colors = convRates.map(r => r > 0 ? 'rgba(124,92,252,0.8)' : 'rgba(107,114,128,0.4)');
+  const colors = convRates.map(r => r > 0 ? 'rgba(109,40,217,0.7)' : 'rgba(156,163,175,0.35)');
 
   if (charts.campaign) charts.campaign.destroy();
 
@@ -956,7 +1017,7 @@ function renderCampaignChart() {
           label: 'Conversion %',
           data: convRates,
           backgroundColor: colors,
-          borderColor: colors.map(c => c.replace('0.8', '1').replace('0.4', '0.6')),
+          borderColor: colors.map(c => c.replace(/[\d.]+\)$/, '1)')),
           borderWidth: 1,
           borderRadius: 4,
           yAxisID: 'y',
@@ -965,9 +1026,9 @@ function renderCampaignChart() {
           label: 'Lead Volume',
           data: totals,
           type: 'line',
-          borderColor: 'rgba(77,166,255,0.8)',
-          backgroundColor: 'rgba(77,166,255,0.1)',
-          pointBackgroundColor: 'rgba(77,166,255,1)',
+          borderColor: 'rgba(37,99,235,0.7)',
+          backgroundColor: 'rgba(37,99,235,0.05)',
+          pointBackgroundColor: 'rgba(37,99,235,1)',
           pointRadius: 5,
           borderWidth: 2,
           yAxisID: 'y1',
@@ -980,7 +1041,7 @@ function renderCampaignChart() {
       maintainAspectRatio: false,
       plugins: {
         legend: {
-          labels: { color: '#9ca3b8', usePointStyle: true }
+          labels: { color: '#525872', usePointStyle: true }
         },
         tooltip: {
           callbacks: {
@@ -997,19 +1058,19 @@ function renderCampaignChart() {
       scales: {
         x: {
           grid: { display: false },
-          ticks: { color: '#9ca3b8', font: { size: 10 }, maxRotation: 25 },
+          ticks: { color: '#525872', font: { size: 10 }, maxRotation: 25 },
         },
         y: {
           position: 'left',
-          grid: { color: 'rgba(255,255,255,0.05)' },
-          ticks: { color: '#9ca3b8', callback: v => v + '%' },
-          title: { display: true, text: 'Conversion %', color: '#6b7280' },
+          grid: { color: 'rgba(0,0,0,0.06)' },
+          ticks: { color: '#525872', callback: v => v + '%' },
+          title: { display: true, text: 'Conversion %', color: '#8890a8' },
         },
         y1: {
           position: 'right',
           grid: { display: false },
-          ticks: { color: '#4da6ff' },
-          title: { display: true, text: 'Lead Volume', color: '#4da6ff' },
+          ticks: { color: '#2563eb' },
+          title: { display: true, text: 'Lead Volume', color: '#2563eb' },
         }
       }
     }
@@ -1021,7 +1082,6 @@ function renderHeatmap() {
   const markets = [...new Set(d.repMarket.map(r => r.market))];
   const reps = [...new Set(d.repMarket.map(r => r.rep))];
 
-  // Sort reps by total win
   const repTotalMap = {};
   d.repTotals.forEach(r => { repTotalMap[r.rep] = r.win; });
   reps.sort((a, b) => (repTotalMap[b] || 0) - (repTotalMap[a] || 0));
@@ -1041,7 +1101,7 @@ function renderHeatmap() {
         const textCol = getHeatTextColor(entry.win);
         html += `<td><span class="heat-cell" style="background:${bg};color:${textCol};">${entry.win.toFixed(1)}%</span></td>`;
       } else {
-        html += '<td><span class="heat-cell" style="background:rgba(107,114,128,0.1);color:#4b5563;">-</span></td>';
+        html += '<td><span class="heat-cell" style="background:rgba(156,163,175,0.08);color:#9ca3af;">-</span></td>';
       }
     });
     const repTotal = d.repTotals.find(r => r.rep === rep);
@@ -1060,14 +1120,10 @@ function renderCoaching() {
   const d = DATA[activeCampaign];
   const avgWin = d.repTotals.reduce((s, r) => s + r.win, 0) / d.repTotals.length;
 
-  // Top performers
   const topPerformers = d.repTotals.filter(r => r.win > avgWin).sort((a, b) => b.win - a.win);
-  // Zero performers
   const zeroPerformers = d.repTotals.filter(r => r.win === 0);
-  // Market issues
   const zeroMarkets = d.marketTotals.filter(m => m.win === 0);
 
-  // Diagnostic
   const activeRepsAboveZero = d.repTotals.filter(r => r.win > 0).length;
   const totalReps = d.repTotals.length;
   const repConvertingPct = ((activeRepsAboveZero / totalReps) * 100).toFixed(0);
@@ -1130,10 +1186,9 @@ function renderCoaching() {
     html += '<div class="coaching-item" style="margin-top:6px;"><strong>Diagnosis: Healthy</strong> - All reps and all markets showing conversions.</div>';
   }
 
-  // Volume note
   const highVolLowConv = d.repTotals.filter(r => r.total > 50 && r.win < avgWin);
   if (highVolLowConv.length > 0) {
-    html += '<div class="coaching-item" style="margin-top:8px;border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;"><strong>Volume Watch:</strong></div>';
+    html += '<div class="coaching-item" style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px;"><strong>Volume Watch:</strong></div>';
     highVolLowConv.forEach(r => {
       html += `<div class="coaching-item">${r.rep} has high volume (${r.total} leads) but below-average conversion (${r.win.toFixed(2)}%). May benefit from lead quality review.</div>`;
     });
@@ -1147,7 +1202,6 @@ function renderCoaching() {
 function renderDataTable() {
   const d = DATA[activeCampaign];
 
-  // Build header
   const cols = [
     { key: 'rep', label: 'Rep' },
     { key: 'market', label: 'Market' },
@@ -1165,7 +1219,6 @@ function renderDataTable() {
   headHtml += '</tr>';
   document.getElementById('table-head').innerHTML = headHtml;
 
-  // Sort data
   let rows = [...d.repMarket];
   rows.sort((a, b) => {
     let va = a[sortState.col];
@@ -1179,7 +1232,7 @@ function renderDataTable() {
   let bodyHtml = '';
   rows.forEach(r => {
     const barWidth = Math.min(r.win * 4, 100);
-    const barColor = r.win === 0 ? '#4b5563' : (r.win >= 10 ? '#22c55e' : '#f59e0b');
+    const barColor = r.win === 0 ? '#d1d5db' : (r.win >= 10 ? '#16a34a' : '#d97706');
     bodyHtml += `<tr>
       <td style="color:var(--text-primary);font-weight:500;">${r.rep}</td>
       <td>${r.market}</td>
@@ -1189,7 +1242,7 @@ function renderDataTable() {
       <td>
         <div class="win-rate-bar">
           <div class="win-rate-fill" style="width:${barWidth}px;background:${barColor};"></div>
-          <span style="color:${r.win > 0 ? '#e8eaf0' : '#6b7280'}">${r.win.toFixed(2)}%</span>
+          <span style="color:${r.win > 0 ? '#1a1d2e' : '#9ca3af'}">${r.win.toFixed(2)}%</span>
         </div>
       </td>
     </tr>`;
@@ -1227,6 +1280,7 @@ function renderAll() {
   renderHeatmap();
   renderCoaching();
   renderDataTable();
+  updateSummaries();
 }
 
 // ============================
