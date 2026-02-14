@@ -469,6 +469,64 @@
     .kpi-row { grid-template-columns: 1fr; }
     .header h1 { font-size: 18px; }
   }
+
+  /* Time selector */
+  .time-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .time-selector label {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .time-select {
+    padding: 8px 14px;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+  }
+
+  .time-select option {
+    background: #1e293b;
+    color: #fff;
+  }
+
+  .time-note {
+    font-size: 11px;
+    color: var(--accent-amber);
+    background: rgba(217,119,6,0.08);
+    border: 1px solid rgba(217,119,6,0.2);
+    border-radius: 6px;
+    padding: 6px 12px;
+    margin-bottom: 20px;
+    display: none;
+  }
+
+  .time-note.visible { display: block; }
+
+  .chart-container.trend { height: 220px; }
+
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
 </style>
 </head>
 <body>
@@ -479,9 +537,21 @@
       <h1>SDR Campaign Performance Dashboard</h1>
       <div class="header-subtitle">Employment Hero - RevOps Analytics</div>
     </div>
-    <div class="campaign-toggle">
-      <button class="toggle-btn active" onclick="switchCampaign('PY')" id="btn-py">Payroll Guide (PY)</button>
-      <button class="toggle-btn" onclick="switchCampaign('OB')" id="btn-ob">Onboarding Checklist (OB)</button>
+    <div class="header-controls">
+      <div class="campaign-toggle">
+        <button class="toggle-btn active" onclick="switchCampaign('PY')" id="btn-py">Payroll Guide (PY)</button>
+        <button class="toggle-btn" onclick="switchCampaign('OB')" id="btn-ob">Onboarding Checklist (OB)</button>
+      </div>
+      <div class="time-selector">
+        <label>Period:</label>
+        <select class="time-select" id="time-select" onchange="switchTimePeriod(this.value)">
+          <option value="all">All Time</option>
+          <option value="2025-11">Nov 2025</option>
+          <option value="2025-12">Dec 2025</option>
+          <option value="2026-01">Jan 2026</option>
+          <option value="L3M">Last 3 Months</option>
+        </select>
+      </div>
     </div>
   </div>
 </header>
@@ -513,6 +583,23 @@
       <div class="kpi-label">Campaign Variants</div>
       <div class="kpi-value orange" id="kpi-campaigns">6</div>
       <div class="kpi-detail" id="kpi-campaigns-detail">Active variants</div>
+    </div>
+  </div>
+
+  <!-- Time filter note -->
+  <div class="time-note" id="time-note">
+    Showing demos booked in the selected period. Pipeline totals (Lost, Hunting) are shown as all-time since individual lead dates are not available in this dataset. With live Salesforce data, all metrics will filter by date.
+  </div>
+
+  <!-- Monthly Trend -->
+  <div class="chart-grid" style="margin-bottom:20px;">
+    <div class="chart-card full-width">
+      <div class="chart-title">Monthly Demo Booking Trend</div>
+      <div class="chart-subtitle">Demos booked per month by rep - tracks coaching impact over time</div>
+      <div class="chart-container trend">
+        <canvas id="trendChart"></canvas>
+      </div>
+      <div class="chart-summary" id="summary-trend">Loading...</div>
     </div>
   </div>
 
@@ -726,9 +813,52 @@ const DATA = {
 };
 
 // ============================
+// DEMO RECORDS WITH DATES
+// ============================
+const DEMOS = {
+  PY: [
+    { rep: 'Adam Mellouli', date: '2025-11-05', market: 'Core', month: '2025-11' },
+    { rep: 'Adam Mellouli', date: '2025-11-26', market: 'Micro', month: '2025-11' },
+    { rep: 'Adam Mellouli', date: '2025-11-26', market: 'Micro', month: '2025-11' },
+    { rep: "Sid'Ali Terkmane", date: '2025-11-27', market: 'Micro', month: '2025-11' },
+    { rep: 'Diego Medrano', date: '2025-11-27', market: 'Core', month: '2025-11' },
+    { rep: 'Steven Kovacs', date: '2025-11-18', market: 'Micro', month: '2025-11' },
+    { rep: 'Afraz Afridi', date: '2025-11-27', market: 'Core', month: '2025-11' },
+    { rep: 'Adam Mellouli', date: '2025-12-01', market: 'Micro', month: '2025-12' },
+    { rep: 'Adam Mellouli', date: '2025-12-03', market: 'Micro', month: '2025-12' },
+    { rep: 'Adam Mellouli', date: '2025-12-08', market: 'Core', month: '2025-12' },
+    { rep: 'Adam Mellouli', date: '2025-12-10', market: 'Micro', month: '2025-12' },
+    { rep: "Sid'Ali Terkmane", date: '2025-12-11', market: 'Core', month: '2025-12' },
+    { rep: "Sid'Ali Terkmane", date: '2025-12-08', market: 'Micro', month: '2025-12' },
+    { rep: 'Dale Liang', date: '2025-12-23', market: 'Micro', month: '2025-12' },
+    { rep: 'Dale Liang', date: '2025-12-09', market: 'Core', month: '2025-12' },
+    { rep: 'Matthew Beiler', date: '2025-12-12', market: 'Micro', month: '2025-12' },
+    { rep: 'Adam Mellouli', date: '2026-01-06', market: 'Core', month: '2026-01' },
+    { rep: 'Adam Mellouli', date: '2026-01-05', market: 'Micro', month: '2026-01' },
+    { rep: "Sid'Ali Terkmane", date: '2026-01-06', market: 'Core', month: '2026-01' },
+    { rep: "Sid'Ali Terkmane", date: '2026-01-05', market: 'Micro', month: '2026-01' },
+    { rep: 'Dale Liang', date: '2026-01-09', market: 'Core', month: '2026-01' },
+    { rep: 'Dale Liang', date: '2026-01-20', market: 'Micro', month: '2026-01' },
+  ],
+  OB: [
+    { rep: 'Adam Mellouli', date: '2026-01-20', market: 'Core', month: '2026-01' },
+    { rep: 'Dale Liang', date: '2026-01-13', market: 'Micro', month: '2026-01' },
+    { rep: 'Steven Kovacs', date: '2026-01-27', market: 'Core', month: '2026-01' },
+    { rep: 'Adam Mellouli', date: '2026-01-22', market: 'Mid-Market', month: '2026-01' },
+    { rep: 'Adam Mellouli', date: '2026-01-20', market: 'Core', month: '2026-01' },
+    { rep: 'Camilo Gomez', date: '2026-01-16', market: 'Core', month: '2026-01' },
+    { rep: 'Steven Kovacs', date: '2026-01-28', market: 'Core', month: '2026-01' },
+  ]
+};
+
+const MONTHS_ORDER = ['2025-11', '2025-12', '2026-01'];
+const MONTH_LABELS = { '2025-11': 'Nov 2025', '2025-12': 'Dec 2025', '2026-01': 'Jan 2026' };
+
+// ============================
 // STATE
 // ============================
 let activeCampaign = 'PY';
+let activeTimePeriod = 'all';
 let charts = {};
 let sortState = { col: 'win', dir: 'desc' };
 
@@ -762,6 +892,21 @@ function getHeatTextColor(val) {
 }
 
 // ============================
+// TIME FILTERING
+// ============================
+
+function getFilteredDemos(campaign) {
+  const demos = DEMOS[campaign] || [];
+  if (activeTimePeriod === 'all' || activeTimePeriod === 'L3M') return demos;
+  return demos.filter(d => d.month === activeTimePeriod);
+}
+
+function switchTimePeriod(period) {
+  activeTimePeriod = period;
+  renderAll();
+}
+
+// ============================
 // CHART SUMMARIES
 // ============================
 
@@ -773,6 +918,17 @@ function updateSummaries() {
   const totalDemos = d.repTotals.reduce((s, r) => s + r.demos, 0);
   const totalResolved = d.repTotals.reduce((s, r) => s + r.total, 0);
   const campName = activeCampaign === 'PY' ? 'Payroll Guide' : 'Onboarding Checklist';
+
+  // Trend chart summary
+  const trendDemos = DEMOS[activeCampaign] || [];
+  const monthCounts = MONTHS_ORDER.map(m => ({ label: MONTH_LABELS[m], count: trendDemos.filter(d => d.month === m).length }));
+  const lastCount = monthCounts[monthCounts.length - 1].count;
+  const firstCount = monthCounts[0].count;
+  const trending = lastCount > firstCount ? 'upward' : lastCount < firstCount ? 'downward' : 'flat';
+  document.getElementById('summary-trend').innerHTML =
+    `<strong>Source:</strong> Demo Booked dates from Salesforce Lead records. ` +
+    monthCounts.map(m => `<strong>${m.label}:</strong> ${m.count} demo${m.count !== 1 ? 's' : ''}`).join(', ') + '. ' +
+    `Trend is <strong>${trending}</strong>. Note: only Demo Booked leads have dates in this dataset; Lost and pipeline leads are shown as all-time totals.`;
 
   // Rep bar chart summary
   document.getElementById('summary-rep').innerHTML =
@@ -836,8 +992,15 @@ function updateKPIs() {
   document.getElementById('kpi-conv').textContent = convRate + '%';
   document.getElementById('kpi-conv-detail').textContent = `${totalDemos} demos / ${totalResolved} resolved`;
 
-  document.getElementById('kpi-demos').textContent = totalDemos;
-  document.getElementById('kpi-demos-detail').textContent = `From ${totalResolved} resolved leads`;
+  const filteredDemos = getFilteredDemos(activeCampaign);
+  if (activeTimePeriod !== 'all' && activeTimePeriod !== 'L3M') {
+    const periodLabel = MONTH_LABELS[activeTimePeriod] || activeTimePeriod;
+    document.getElementById('kpi-demos').textContent = filteredDemos.length;
+    document.getElementById('kpi-demos-detail').textContent = `${periodLabel} (${totalDemos} all-time)`;
+  } else {
+    document.getElementById('kpi-demos').textContent = totalDemos;
+    document.getElementById('kpi-demos-detail').textContent = `From ${totalResolved} resolved leads`;
+  }
 
   document.getElementById('kpi-sdrs').textContent = d.repTotals.length;
   document.getElementById('kpi-sdrs-detail').textContent = 'Working this campaign';
@@ -1077,6 +1240,62 @@ function renderCampaignChart() {
   });
 }
 
+function renderTrendChart() {
+  const demos = DEMOS[activeCampaign] || [];
+  const reps = [...new Set(demos.map(d => d.rep))].sort();
+  const REP_COLORS = [
+    'rgba(109,40,217,0.8)', 'rgba(37,99,235,0.8)', 'rgba(22,163,74,0.8)',
+    'rgba(217,119,6,0.8)', 'rgba(220,38,38,0.8)', 'rgba(234,88,12,0.8)',
+    'rgba(6,182,212,0.8)', 'rgba(168,85,247,0.8)', 'rgba(236,72,153,0.8)',
+    'rgba(20,184,166,0.8)'
+  ];
+
+  const datasets = reps.map((rep, i) => ({
+    label: rep,
+    data: MONTHS_ORDER.map(m => demos.filter(d => d.rep === rep && d.month === m).length),
+    backgroundColor: REP_COLORS[i % REP_COLORS.length],
+    borderRadius: 3,
+  }));
+
+  if (charts.trend) charts.trend.destroy();
+
+  charts.trend = new Chart(document.getElementById('trendChart'), {
+    type: 'bar',
+    data: {
+      labels: MONTHS_ORDER.map(m => MONTH_LABELS[m]),
+      datasets: datasets,
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { color: '#525872', usePointStyle: true, pointStyleWidth: 10, font: { size: 11 } }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.dataset.label}: ${ctx.raw} demo${ctx.raw !== 1 ? 's' : ''}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          grid: { display: false },
+          ticks: { color: '#525872' },
+        },
+        y: {
+          stacked: true,
+          grid: { color: 'rgba(0,0,0,0.06)' },
+          ticks: { color: '#525872', stepSize: 1 },
+          title: { display: true, text: 'Demos Booked', color: '#8890a8' },
+        }
+      }
+    }
+  });
+}
+
 function renderHeatmap() {
   const d = DATA[activeCampaign];
   const markets = [...new Set(d.repMarket.map(r => r.market))];
@@ -1272,7 +1491,10 @@ function switchCampaign(campaign) {
 }
 
 function renderAll() {
+  const note = document.getElementById('time-note');
+  note.classList.toggle('visible', activeTimePeriod !== 'all' && activeTimePeriod !== 'L3M');
   updateKPIs();
+  renderTrendChart();
   renderRepBarChart();
   renderMarketDonut();
   renderFunnel();
